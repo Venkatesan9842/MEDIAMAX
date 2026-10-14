@@ -19,10 +19,58 @@ export function useAmbientMotion(scope) {
         ease: 'none',
         scrollTrigger: { trigger: '.promo-section', start: 'top bottom', end: 'bottom top', scrub: 1.2 },
       });
+      // Background images are isolated from their content, letting the image
+      // parallax without moving labels, cards, or calls to action.
+      gsap.fromTo('.performance-scene',
+        { scale: 1.14, yPercent: -7 },
+        {
+          scale: 1,
+          yPercent: 7,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.performance-visual',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        },
+      );
+      gsap.to('.hero-photo', {
+        backgroundPosition: '50% 65%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero-section',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.7,
+        },
+      });
       gsap.to('.promo-marquee-track', { xPercent: -50, duration: 28, repeat: -1, ease: 'none' });
       gsap.from('.performance-image, .footer-image', {
         scale: 1.13, ease: 'none', scrollTrigger: { trigger: '.performance-section', start: 'top bottom', end: 'bottom top', scrub: true },
       });
+      // Tie the Performance section directly to the scroll position: its two
+      // columns settle into place as the section enters the viewport.
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduceMotion) {
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: '.performance-section',
+            start: 'top 88%',
+            end: 'top 32%',
+            scrub: 0.8,
+          },
+        })
+          .fromTo('.performance-details',
+            { autoAlpha: 0, x: -70 },
+            { autoAlpha: 1, x: 0, ease: 'none', duration: 1 },
+          )
+          .fromTo('.performance-visual',
+            { autoAlpha: 0, x: 70, scale: 0.94 },
+            { autoAlpha: 1, x: 0, scale: 1, ease: 'none', duration: 1 },
+            0.08,
+          );
+      }
       gsap.to('.smart-circle', { rotate: 360, duration: 24, repeat: -1, ease: 'none' });
       gsap.utils.toArray('.property-card, .category-card').forEach((card) => {
         const enter = () => gsap.to(card, { scale: 0.975, duration: 0.35, ease: 'power2.out' });

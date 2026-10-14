@@ -2,7 +2,7 @@
 
 :root { font-family: 'DM Sans', sans-serif; color: #20352d; background: #e7e2d5; font-synthesis: none; }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; }
 body { margin: 0; min-width: 320px; }
 button { font: inherit; }
 .landing { min-height: 100svh; overflow: hidden; isolation: isolate; position: relative; padding: 28px clamp(24px, 5vw, 80px) 26px; background: #e7e2d5; }

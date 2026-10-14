@@ -12,9 +12,11 @@ import { SiteFooter } from './components/SiteFooter';
 import { BrandMarquee } from './components/BrandMarquee';
 import { usePageMotion } from './hooks/usePageMotion';
 import { useAmbientMotion } from './hooks/useAmbientMotion';
+import { useSmoothScroll } from './hooks/useSmoothScroll';
 
 export default function App() {
   const page = useRef(null);
+  useSmoothScroll();
   usePageMotion(page);
   useAmbientMotion(page);
 

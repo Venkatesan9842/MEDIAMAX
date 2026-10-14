@@ -6,7 +6,38 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function usePageMotion(scope) {
   useLayoutEffect(() => {
+    const restoredText = [];
     const ctx = gsap.context(() => {
+      // Split only the visible hero headline into characters so GSAP can give
+      // the text a precise, staggered entrance without changing its wording.
+      const title = document.querySelector('.hero-copy h1');
+      if (title) {
+        const originalMarkup = title.innerHTML;
+        const accessibleLabel = title.textContent;
+        const fragment = document.createDocumentFragment();
+
+        title.childNodes.forEach((node) => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            [...node.textContent].forEach((character) => {
+              const letter = document.createElement('span');
+              letter.className = 'hero-title-character';
+              letter.textContent = character === ' ' ? '\u00a0' : character;
+              letter.setAttribute('aria-hidden', 'true');
+              fragment.appendChild(letter);
+            });
+          } else {
+            fragment.appendChild(node.cloneNode(true));
+          }
+        });
+
+        title.replaceChildren(fragment);
+        title.setAttribute('aria-label', accessibleLabel);
+        restoredText.push(() => {
+          title.innerHTML = originalMarkup;
+          title.removeAttribute('aria-label');
+        });
+      }
+
       const reveal = (target, trigger, vars = {}) => gsap.from(target, {
         autoAlpha: 0,
         y: 42,
@@ -32,7 +63,8 @@ export function usePageMotion(scope) {
       intro
         .fromTo('.topbar', { y: -22, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .7 })
         .fromTo('.hero-copy', { x: -42, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: .85 }, '-=.32')
-        .fromTo('.hero-photo', { scale: 1.12, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 1.15 }, '-=.72');
+        .fromTo('.hero-photo', { scale: 1.12, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 1.15 }, '-=.72')
+        .from('.hero-title-character', { yPercent: 115, autoAlpha: 0, stagger: .018, duration: .5 }, '-=.72');
 
       reveal('.promo-marquee', '.promo-section', { x: 130, y: 0, duration: 1.05 });
       reveal('.promo-icons', '.promo-section', { y: -30, duration: .65 });
@@ -55,6 +87,9 @@ export function usePageMotion(scope) {
       reveal('.footer-grid > *', '.site-footer', { y: 32, stagger: .1, duration: .65 });
     }, scope);
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      restoredText.forEach((restore) => restore());
+    };
   }, [scope]);
 }
