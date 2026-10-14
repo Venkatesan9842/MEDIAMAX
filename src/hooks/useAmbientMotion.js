@@ -46,8 +46,22 @@ export function useAmbientMotion(scope) {
         },
       });
       gsap.to('.promo-marquee-track', { xPercent: -50, duration: 28, repeat: -1, ease: 'none' });
-      gsap.from('.performance-image, .footer-image', {
-        scale: 1.13, ease: 'none', scrollTrigger: { trigger: '.performance-section', start: 'top bottom', end: 'bottom top', scrub: true },
+      gsap.fromTo('.footer-image', {
+        autoAlpha: 0,
+        clipPath: 'inset(18% 0 18% 0 round 18px)',
+        scale: 1.14,
+      }, {
+        autoAlpha: 1,
+        clipPath: 'inset(0% 0 0% 0 round 18px)',
+        scale: 1,
+        duration: 1.15,
+        ease: 'power4.out',
+        scrollTrigger: { trigger: '.site-footer', start: 'top 82%', once: true },
+      });
+      gsap.to('.footer-image', {
+        backgroundPosition: '50% 64%',
+        ease: 'none',
+        scrollTrigger: { trigger: '.site-footer', start: 'top bottom', end: 'bottom top', scrub: 1 },
       });
       // Tie the Performance section directly to the scroll position: its two
       // columns settle into place as the section enters the viewport.
@@ -72,9 +86,36 @@ export function useAmbientMotion(scope) {
           );
       }
       gsap.to('.smart-circle', { rotate: 360, duration: 24, repeat: -1, ease: 'none' });
-      gsap.utils.toArray('.property-card, .category-card').forEach((card) => {
+      gsap.utils.toArray('.property-card').forEach((card) => {
         const enter = () => gsap.to(card, { scale: 0.975, duration: 0.35, ease: 'power2.out' });
         const leave = () => gsap.to(card, { scale: 1, duration: 0.55, ease: 'elastic.out(1, .6)' });
+        card.addEventListener('pointerenter', enter);
+        card.addEventListener('pointerleave', leave);
+        listeners.push([card, 'pointerenter', enter], [card, 'pointerleave', leave]);
+      });
+      gsap.utils.toArray('.category-card').forEach((card) => {
+        const enter = () => {
+          gsap.killTweensOf(card);
+          gsap.set(card, { zIndex: 3 });
+          gsap.to(card, {
+            scale: 1.25,
+            borderColor: '#258cff',
+            boxShadow: '0 16px 32px rgba(22, 93, 164, 0.28)',
+            duration: 0.32,
+            ease: 'power3.out',
+          });
+        };
+        const leave = () => {
+          gsap.killTweensOf(card);
+          gsap.to(card, {
+            scale: 1,
+            borderColor: 'transparent',
+            boxShadow: '0 0 0 rgba(22, 93, 164, 0)',
+            duration: 0.42,
+            ease: 'power3.out',
+            onComplete: () => gsap.set(card, { zIndex: 0 }),
+          });
+        };
         card.addEventListener('pointerenter', enter);
         card.addEventListener('pointerleave', leave);
         listeners.push([card, 'pointerenter', enter], [card, 'pointerleave', leave]);

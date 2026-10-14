@@ -1,0 +1,5 @@
+.category-card {
+  z-index: 0;
+  border: 2px solid transparent;
+  will-change: transform, box-shadow, border-color;
+}

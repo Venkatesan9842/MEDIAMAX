@@ -77,7 +77,30 @@ export function usePageMotion(scope) {
       reveal('.service-list button', '.service-list', { x: 95, y: 0, stagger: .11, duration: .7 });
 
       reveal('.ownership-section .kicker, .ownership-section h2', '.ownership-section', { y: 36, stagger: .12, duration: .7 });
-      reveal('.ownership-circle', '.ownership-diagram', { y: 55, scale: .72, stagger: .14, duration: .85, ease: 'back.out(1.45)' });
+      const ownershipCircles = gsap.utils.toArray('.ownership-circle');
+      gsap.timeline({
+        scrollTrigger: { trigger: '.ownership-diagram', start: 'top 78%', once: true },
+      })
+        .from(ownershipCircles, {
+          autoAlpha: 0,
+          y: 68,
+          scale: .68,
+          stagger: .18,
+          duration: .82,
+          ease: 'back.out(1.45)',
+        })
+        .to(ownershipCircles, {
+          boxShadow: '0 0 0 10px rgba(176, 219, 218, 0.12)',
+          stagger: .16,
+          duration: .32,
+          ease: 'power2.out',
+        }, '-=.38')
+        .to(ownershipCircles, {
+          boxShadow: '0 0 0 0 rgba(176, 219, 218, 0)',
+          stagger: .16,
+          duration: .58,
+          ease: 'power2.inOut',
+        });
 
       reveal('.advantages-grid article', '.advantages-grid', { y: 32, stagger: .09, duration: .55 });
       reveal('.category-card', '.category-grid', { y: 45, scale: .9, stagger: .055, duration: .55 });

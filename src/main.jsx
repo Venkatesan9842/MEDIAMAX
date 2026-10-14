@@ -8,6 +8,7 @@ import './styles/motion.css';
 import './styles/hero-match.css';
 import './styles/promo-height.css';
 import './styles/brand-marquee.css';
+import './styles/category-card-motion.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode><App /></StrictMode>,
