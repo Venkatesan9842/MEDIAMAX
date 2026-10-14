@@ -1,0 +1,9 @@
+.promo-section {
+  height: 560px;
+}
+
+@media (max-width: 700px) {
+  .promo-section {
+    height: 240px;
+  }
+}

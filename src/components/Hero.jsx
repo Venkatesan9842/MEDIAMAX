@@ -1,0 +1,5 @@
+const Icon = ({ children, label }) => <button className="icon-button" aria-label={label}>{children}</button>;
+export function Hero() { return <section className="hero-section section" id="top">
+  <header className="topbar motion-intro"><a className="wordmark" href="#top"><strong>MONTE</strong><span>REAL ESTATE</span></a><div className="topbar-actions"><Icon>⌁</Icon><Icon>☰</Icon></div></header>
+  <div className="hero-panel motion-intro"><div className="hero-copy"><p className="kicker">Building Your Dreams</p><h1>Real Estate in Dubai:<br />Ideal for Living and<br />Investing</h1><div className="hero-footer"><button className="discover-button"><span>↘</span> Discover</button><a href="#properties">Explore All<br />Our Properties ↗</a></div></div><div className="hero-photo"><div className="hero-stats"><span>More than 1500 real<br />estate properties</span><span>From $145,000 with a<br />yield of 10% per annum</span></div><div className="hero-corners"><Icon>♡</Icon><Icon>⇧</Icon></div><button className="catalog-button">catalog<br />download　⇩</button></div></div>
+</section>; }

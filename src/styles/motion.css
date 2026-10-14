@@ -1,0 +1,8 @@
+@media (prefers-reduced-motion: no-preference) {
+  .property-card, .category-card { will-change: transform; }
+  .hero-photo, .performance-image, .footer-image { will-change: transform; }
+  .service-list button { transition: color .2s ease; }
+  .service-list button:hover { color: #d9e9e4; }
+  .faq-list details[open] summary b { transform: rotate(45deg); }
+  .faq-list summary b { transition: transform .25s ease; }
+}

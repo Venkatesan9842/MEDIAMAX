@@ -1,0 +1,2 @@
+const points=['10% Initial\nPayment','5 years installment,\n0% overpayment','Rental income ~ 15%'];
+export function Ownership(){return <section className="section ownership-section"><p className="kicker">An accessible way to invest</p><h2>Path to Smart Ownership</h2><div className="ownership-diagram">{points.map((p,i)=><div className="ownership-circle" key={p}><b>0{i+1}</b><span>{p.split('\n').map(x=><>{x}<br /></>)}</span></div>)}</div></section>}
